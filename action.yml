@@ -10,7 +10,7 @@ inputs:
     description: 'Personal access token (PAT) used to fetch the repository'
     default: ${{ github.token }}
     required: true
- target_branch:
+  target_branch:
     description: 'Git branch where assets will be deployed'
     default: 'gh-pages'
     required: false
