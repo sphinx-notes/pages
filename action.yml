@@ -1,0 +1,43 @@
+# https://help.github.com/en/articles/metadata-syntax-for-github-actions
+name: 'Sphinx to GitHub Pages'
+description: 'GitHub Action to deploy Sphinx documentation to GitHub Pages'
+author: 'Shengyu Zhang'
+branding:
+  color: 'green'
+  icon: 'upload-cloud'
+inputs:
+  token:
+    description: 'Personal access token (PAT) used to fetch the repository'
+    default: ${{ github.token }}
+    required: true
+ target_branch:
+    description: 'Git branch where assets will be deployed'
+    default: 'gh-pages'
+    required: false
+  source_dir:
+    description: 'Path to documentation source files that relative to project root'
+    default: '.'
+  install_requirements:
+    description: 'Install Sphinx extensions listed in $source_dir/requirements.txt'
+    default: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Initialize Sphinx environment
+      run: $GITHUB_ACTION_PATH/install.sh
+      shell: bash
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        token: ${{ inputs.token }}
+        path: ${{ inputs.source_dir }}
+        fetch-depth: 0 # All branchs and tag
+    - name: Build Sphinx documentation
+      run: $GITHUB_ACTION_PATH/main.sh
+      shell: bash
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ inputs.token }}
+        branch: ${{ inputs.target_branch }}
