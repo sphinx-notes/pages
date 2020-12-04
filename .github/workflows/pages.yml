@@ -1,0 +1,11 @@
+name: Pages
+on: [push]
+jobs:
+  build:
+    name: Sphinx to GitHub Pages
+    runs-on: ubuntu-latest
+    steps:
+    - uses: sphinx-notes/pages@master
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        source_dir: doc
