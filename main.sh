@@ -18,19 +18,19 @@ echo ::group:: Installing Sphinx
 if command -v apt &>/dev/null; then
     # Debian/Ubuntu
     sudo apt update
-    sudo apt install python3-sphinx python3-pip
+    sudo apt install python3-sphinx python3-pip python3-setuptools
 elif command -v zypper &>/dev/null; then
     # openSUSE
     sudo zypper update
-    sudo zypper install python-Sphinx python3-pip
+    sudo zypper install python-Sphinx python3-pip python3-setuptools
 elif command -v yum &>/dev/null; then
     # RHEL, CentOS
     sudo yum update
-    sudo yum install python-sphinx python-pip
+    sudo yum install python-sphinx python-pip python-setuptools
 elif command -v pacman &>/dev/null; then
     # ArchLinux
     sudo pacman -Syy
-    sudo pacman -S python-sphinx python-pip
+    sudo pacman -S python-sphinx python-pip python-setuptools
 elif command -v brew &>/dev/null; then
     # macOS
     brew update
