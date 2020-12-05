@@ -31,10 +31,16 @@ release = '1.0a'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    'sphinx.ext.githubpages'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
+
+# The document name of the “master” document, that is,
+# the document that contains the root toctree directive.
+# Default is 'index', we set it here for supporting Sphinx<2.0
+master_doc = 'index'
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
@@ -53,3 +59,7 @@ html_theme = 'alabaster'
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
+
+# The URL which points to the root of the HTML documentation.
+# It is used to indicate the location of document like canonical_url
+html_baseurl = 'https://sphinx-notes.github.io/pages'
