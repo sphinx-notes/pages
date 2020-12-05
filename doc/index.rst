@@ -2,6 +2,9 @@
 Sphinx to GitHub Pages
 ======================
 
+.. image:: https://img.shields.io/github/stars/sphinx-notes/pages.svg?style=social&label=Star&maxAge=2592000
+   :target: https://github.com/sphinx-notes/pages
+
 The project is originated from `seanzhengw/sphinx-pages`_,
 it builds Sphinx documentation and push to branch specified branch.
 
