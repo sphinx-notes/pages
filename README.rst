@@ -1,5 +1,5 @@
-=================
-sphinxnotes-pages
-=================
+======================
+Sphinx to GitHub Pages
+======================
 
-Fork of https://github.com/seanzhengw/sphinx-pages.
+Please refer to https://sphinx-notes.github.io/pages/ for documentation.
