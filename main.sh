@@ -46,13 +46,16 @@ else
 fi
 echo ::endgroup::
 
-echo ::group:: Installing requirements
 if [ "$INPUT_INSTALL_REQUIREMENTS" = "true" ] ; then
-    pip3 install -r $doc_dir/requirements.txt
-else
-    echo Skipped
+    echo ::group:: Installing requirements
+    if [ -f "$doc_dir/requirements.txt" ]; then
+        echo Installing python requirements
+        pip3 install -r $doc_dir/requirements.txt
+    else
+        echo No requirements.txt found, skipped
+    fi
+    echo ::endgroup::
 fi
-echo ::endgroup::
 
 echo ::group:: Creating temp directory
 tmp_dir=$(mktemp -d -t pages-XXXXXXXXXX)
