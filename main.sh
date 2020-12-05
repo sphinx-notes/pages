@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # set -x
-# set -e
+set -e
 
 repo_dir=$GITHUB_WORKSPACE/$INPUT_REPOSITORY_PATH
 doc_dir=$repo_dir/$INPUT_DOCUMENTATION_PATH
