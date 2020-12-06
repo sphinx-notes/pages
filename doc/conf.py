@@ -67,3 +67,5 @@ html_static_path = ['_static']
 # The URL which points to the root of the HTML documentation.
 # It is used to indicate the location of document like canonical_url
 html_baseurl = 'https://sphinx-notes.github.io/pages'
+
+html_logo = html_favicon = '_images/sphinx-notes.png'
