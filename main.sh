@@ -15,31 +15,46 @@ echo ::endgroup::
 # The actions doesn't depends on any images,
 # so we have to try various package manager.
 echo ::group:: Installing Sphinx
-if command -v apt &>/dev/null; then
+if command -v pip3 &>/dev/null; then
+    echo Found pip3 in system path
+elif command -v apt &>/dev/null; then
     # Debian/Ubuntu
+    echo Installing pip3 via apt
     sudo apt update
-    sudo apt install python3-sphinx python3-pip python3-setuptools
+    sudo apt install python3-pip python3-setuptools
 elif command -v zypper &>/dev/null; then
     # openSUSE
+    echo Installing pip3 via zypper
     sudo zypper update
-    sudo zypper install python-Sphinx python3-pip python3-setuptools
+    sudo zypper install python3-pip python3-setuptools
 elif command -v yum &>/dev/null; then
     # RHEL, CentOS
+    echo Installing pip3 via yum
     sudo yum update
-    sudo yum install python-sphinx python-pip python-setuptools
+    sudo yum install python-pip python-setuptools
 elif command -v pacman &>/dev/null; then
     # ArchLinux
+    echo Installing pip3 via pacman
     sudo pacman -Syy
-    sudo pacman -S python-sphinx python-pip python-setuptools
+    sudo pacman -S python-pip python-setuptools
 elif command -v brew &>/dev/null; then
     # macOS
+    echo Installing pip3 via homebrew
     brew update
-    brew install sphinx-doc
+    brew install python
 fi
-echo Checking installation result
-if [ ! command -v sphinx-build &>/dev/null ] \
-    || [ ! command -v pip3 &>/dev/null ]; then
-    echo Sphinx or pip is not successfully installed
+if ! command -v pip3 &>/dev/null; then
+    echo Pip is not successfully installed
+    exit 1
+else
+    echo Pip is successfully installed
+fi
+echo Installing sphinx via pip
+pip3 install -U sphinx
+echo Adding user bin to system path
+PATH=$HOME/.local/bin:$PATH
+if ! command -v sphinx-build &>/dev/null; then
+    echo Sphinx is not successfully installed
     exit 1
 else
     echo Everything goes well
