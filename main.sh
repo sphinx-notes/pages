@@ -86,17 +86,16 @@ echo Setting up git configure
 cd $repo_dir
 git config --local user.email "action@github.com"
 git config --local user.name "GitHub Action"
+git stash
 echo Setting up branch $INPUT_TARGET_BRANCH
 branch_exist=$(git ls-remote --heads origin refs/heads/$INPUT_TARGET_BRANCH)
 if [ -z "$branch_exist" ]; then
     echo Branch doesn\'t exist, create an emptry branch
-    git checkout --orphan $INPUT_TARGET_BRANCH
-    git rm --cached -r .
+    git checkout --force --orphan $INPUT_TARGET_BRANCH
 else
     echo Branch exists, chekcout to it
-    git checkout $INPUT_TARGET_BRANCH
+    git checkout --force $INPUT_TARGET_BRANCH
 fi
-echo Cleanning up git workspace
 git clean -fd
 echo ::endgroup::
 
