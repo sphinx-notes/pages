@@ -108,5 +108,5 @@ cp -vr $tmp_dir/. .
 echo Adding HTML documentation to repository index
 git add .
 echo Recording changes to repository
-git commit --allow-empty -m "Add changes"
+git commit --allow-empty -m "Add changes for $GITHUB_SHA"
 echo ::endgroup::
