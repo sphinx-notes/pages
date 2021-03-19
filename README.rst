@@ -45,7 +45,7 @@ so your workflow file should be:
            branch: gh-pages
 
 Inputs
-------
+======
 
 :target_branch:
     (default: ``'gh-pages'``) Git branch where assets will be deployed
@@ -57,3 +57,16 @@ Inputs
     (default: ``'true'``) Install Sphinx extensions listed in $documentation_path/requirements.txt, symbol link is supported
 :extra_files:
     (default: ``''``) Extras files(such as README, LICENSE) to be commited to $target_branch
+
+Examples
+========
+
+The following pages are built by this action:
+
+- https://sphinx-notes.github.io/pages
+- https://sphinx-notes.github.io/lilypond
+- https://sphinx-notes.github.io/any
+- https://sphinx-notes.github.io/strike
+- You can visit https://sphinx-notes.github.io for more pages...
+
+You can found the workflow file in their corrsponding repository.
