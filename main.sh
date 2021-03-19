@@ -99,6 +99,12 @@ fi
 git clean -fd
 echo ::endgroup::
 
+echo ::group:: Checking out extra files
+for f in $INPUT_EXTRA_FILES; do
+    git checkout $GITHUB_REF $f
+done
+echo ::endgroup::
+
 echo ::group:: Committing HTML documentation
 cd $repo_dir
 echo Deleting all file in repository

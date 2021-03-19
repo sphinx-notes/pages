@@ -19,9 +19,13 @@ inputs:
     required: false
     default: '.'
   install_requirements:
-    description: 'Install Sphinx extensions listed in $doc_path/requirements.txt'
+    description: 'Install Sphinx extensions listed in $documentation_path/requirements.txt'
     required: false
     default: 'true'
+  extra_files:
+    description: 'Extras files(such as README, LICENSE) to be commited to $target_branch'
+    required: false
+    default: ''
 
 runs:
   using: 'node12'
