@@ -99,12 +99,6 @@ fi
 git clean -fd
 echo ::endgroup::
 
-echo ::group:: Checking out extra files
-for f in $INPUT_EXTRA_FILES; do
-    git checkout $GITHUB_REF $f
-done
-echo ::endgroup::
-
 echo ::group:: Committing HTML documentation
 cd $repo_dir
 echo Deleting all file in repository
@@ -113,6 +107,10 @@ echo Copying HTML documentation to repository
 cp -vr $tmp_dir/. .
 echo Adding HTML documentation to repository index
 git add .
+echo Checking out extra files
+for f in $INPUT_EXTRA_FILES; do
+    git checkout $GITHUB_REF $f
+done
 echo Recording changes to repository
 git commit --allow-empty -m "Add changes for $GITHUB_SHA"
 echo ::endgroup::
