@@ -13,6 +13,11 @@ it helps you building Sphinx documentation and commit specified branch.
 Usage
 =====
 
+.. note::
+
+   You should enable extension ``sphinx.ext.githubpages`` in your ``conf.py``
+   first.
+
 The simplpest Workflow file looks like that:
 
 .. code-block:: yaml
