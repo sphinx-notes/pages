@@ -93,7 +93,7 @@ if [ -z "$branch_exist" ]; then
     echo Branch doesn\'t exist, create an emptry branch
     git checkout --force --orphan $INPUT_TARGET_BRANCH
 else
-    echo Branch exists, chekcout to it
+    echo Branch exists, checkout to it
     git checkout --force $INPUT_TARGET_BRANCH
 fi
 git clean -fd
