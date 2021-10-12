@@ -26,7 +26,7 @@ The simplpest Workflow file looks like that:
      uses: sphinx-notes/pages@master
 
 But note that this actions only help you build and commit Sphinx documentation,
-we need another tow actions: one for checking out and one for push to remote,
+we need another two actions: one for checking out and one for push to remote,
 so your workflow file should be:
 
 .. code-block:: yaml
