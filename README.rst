@@ -63,6 +63,12 @@ Inputs
 :extra_files:
     (default: ``''``) Extras files(such as README, LICENSE) to be commited to $target_branch
 
+    .. topic:: DEPREDATED
+
+       Use html_extra_path_ instead.
+
+       .. _html_extra_path: https://www.sphinx-doc.org/en/master/usage/configuration.html#confval-html_extra_path
+
 Examples
 ========
 

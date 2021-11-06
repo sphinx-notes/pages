@@ -23,7 +23,7 @@ inputs:
     required: false
     default: 'true'
   extra_files:
-    description: 'Extras files(such as README, LICENSE) to be commited to $target_branch'
+    description: '[DEPREDATED, use sphinx configuration html_extra_path instead] Extras files(such as README, LICENSE) to be commited to $target_branch'
     required: false
     default: ''
 
