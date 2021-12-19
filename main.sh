@@ -78,7 +78,7 @@ echo Deleting all file in repository
 rm -vrf *
 echo Copying HTML documentation to repository
 # Remove unused doctree
-rm -rf $tmp_dir/.doctree
+rm -rf $tmp_dir/.doctrees
 cp -vr $tmp_dir/. .
 echo Adding HTML documentation to repository index
 git add .
