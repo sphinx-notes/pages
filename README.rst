@@ -1,14 +1,11 @@
-======================
-Sphinx to GitHub Pages
-======================
+=========================
+Sphinx to GitHub Pages V2
+=========================
 
 .. image:: https://img.shields.io/github/stars/sphinx-notes/pages.svg?style=social&label=Star&maxAge=2592000
    :target: https://github.com/sphinx-notes/pages
 
-The project is originated from `seanzhengw/sphinx-pages`_,
-it helps you building Sphinx documentation and commit specified branch.
-
-.. _seanzhengw/sphinx-pages: https://github.com/seanzhengw/sphinx-pages.
+Help you deploying your Sphinx documentation to Github Pages.
 
 Usage
 =====
@@ -18,31 +15,32 @@ Usage
    You should enable extension ``sphinx.ext.githubpages`` in your ``conf.py``
    first.
 
-The simplpest Workflow file looks like that:
+This action only help you build and commit Sphinx documentation to ``gh-pages``,
+branch. So we need some other actions:
 
-.. code-block:: yaml
+- ``action/setup-python`` for installing python and pip
+- ``actions/checkout`` for checking out git repository
+- ``ad-m/github-push-action`` for pushing site to remote
 
-   - name: Build and Commit
-     uses: sphinx-notes/pages@master
-
-But note that this actions only help you build and commit Sphinx documentation,
-we need another two actions: one for checking out and one for push to remote,
-so your workflow file should be:
+So your workflow file should be:
 
 .. code-block:: yaml
 
    name: Pages
-   on: [push]
+   on:
+     push:
+       branches:
+       - master
    jobs:
      build:
        runs-on: ubuntu-latest
        steps:
-       - name: Checkout
-         uses: actions/checkout@master
+       - uses: actions/setup-python@v2
+       - uses: actions/checkout@master
          with:
            fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
        - name: Build and Commit
-         uses: sphinx-notes/pages@master
+         uses: sphinx-notes/pages@v2
        - name: Push changes
          uses: ad-m/github-push-action@master
          with:
@@ -52,32 +50,48 @@ so your workflow file should be:
 Inputs
 ======
 
-:target_branch:
-    (default: ``'gh-pages'``) Git branch where assets will be deployed
-:repository_path:
-    (default: ``'.'``) Relative path under $GITHUB_WORKSPACE to place the repository
-:documentation_path:
-    (default: ``'.'``) Relative path under repository to documentation source files
-:install_requirements:
-    (default: ``'true'``) Install Sphinx extensions listed in $documentation_path/requirements.txt, symbol link is supported
-:extra_files:
-    (default: ``''``) Extras files(such as README, LICENSE) to be commited to $target_branch
-
-    .. topic:: DEPREDATED
-
-       Use html_extra_path_ instead.
-
-       .. _html_extra_path: https://www.sphinx-doc.org/en/master/usage/configuration.html#confval-html_extra_path
+======================= ============= ============ =============================
+Input                   Default       Required     Description
+----------------------- ------------- ------------ -----------------------------
+``documentation_path``  './docs'      false        Relative path under
+                                                   repository to documentation
+                                                   source files
+``target_branch` `      'gh-pages'    false        Git branch where assets will
+                                                   be deployed
+``repository_path``      '.'          false        Relative path under
+                                                   $GITHUB_WORKSPACE to place
+                                                   the repository.
+                                                   You not need to set this
+                                                   Input unless you checkout
+                                                   the repository to a custom
+                                                   path
+``requirements_path``   ''            false        Relative path under
+                                                   $repository_path to pip
+                                                   requirements file
+``sphinx_version``      ''            false        Version of Sphinx
+======================= ============= ============ =============================
 
 Examples
 ========
 
-The following pages are built by this action:
+The following repository's pages are built by this action:
 
-- https://sphinx-notes.github.io/pages
-- https://sphinx-notes.github.io/lilypond
-- https://sphinx-notes.github.io/any
-- https://sphinx-notes.github.io/strike
-- You can visit https://sphinx-notes.github.io for more pages...
+- https://github.com/SilverRainZ/bullet
+- https://github.com/sphinx-notes/pages
+- https://github.com/sphinx-notes/any
+- https://github.com/sphinx-notes/snippet
+- https://github.com/sphinx-notes/lilypond
+- https://github.com/sphinx-notes/strike
+- ...
 
-You can found the workflow file in their corrsponding repository.
+You can found the workflow file in their repository.
+
+Tips
+====
+
+Copy extra files to site
+========================
+
+Use Sphinx confval html_extra_path__.
+
+__ https://www.sphinx-doc.org/en/master/usage/configuration.html#confval-html_extra_path
