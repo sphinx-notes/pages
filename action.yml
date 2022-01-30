@@ -21,7 +21,7 @@ inputs:
   requirements_path:
     description: 'Relative path under $repository_path to pip requirements file'
     required: false
-    default: ''
+    default: './requirements.txt'
   sphinx_version:
     description: 'Version of Sphinx'
     required: false
