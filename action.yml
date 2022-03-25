@@ -14,6 +14,10 @@ inputs:
     description: 'Git branch where Github Pages will be deployed'
     required: false
     default: 'gh-pages'
+  target_dir:
+    description: 'Directory in Github Pages where Sphinx Pages will be placed'
+    required: false
+    default: '.'
   repository_path:
     description: 'Relative path under $GITHUB_WORKSPACE to place the repository'
     required: false
