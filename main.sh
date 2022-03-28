@@ -79,9 +79,9 @@ rm -vrf *
 echo Copying HTML documentation to repository
 # Remove unused doctree
 rm -rf $tmp_dir/.doctrees
-cp -vr $tmp_dir/. $INPUT_TARGET_DIR
+cp -vr $tmp_dir/. $INPUT_TARGET_PATH
 echo Adding HTML documentation to repository index
-git add $INPUT_TARGET_DIR
+git add $INPUT_TARGET_PATH
 echo Recording changes to repository
 git commit --allow-empty -m "Add changes for $GITHUB_SHA"
 echo ::endgroup::
