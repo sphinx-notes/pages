@@ -58,7 +58,7 @@ Input                   Default        Required     Description
                                                     source files
 ``target_branch``       ``'gh-pages'`` ``false``    Git branch where assets will
                                                     be deployed
-``target_dir``          ``'.'``        ``false``    Directory in Github Pages
+``target_path``          ``'.'``        ``false``    Directory in Github Pages
                                                     where Sphinx Pages will be
                                                     placed
 ``repository_path``     ``'.'``        ``false``    Relative path under
