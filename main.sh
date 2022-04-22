@@ -80,6 +80,11 @@ echo Copying HTML documentation to repository
 # Remove unused doctree
 rm -rf $tmp_dir/.doctrees
 cp -vr $tmp_dir/. $INPUT_TARGET_PATH
+if [ ! -f "$INPUT_TARGET_PATH/.nojekyll" ]; then
+    # See also sphinxnotes/pages#7
+    echo Creating .nojekyll file
+    touch "$INPUT_TARGET_PATH/.nojekyll"
+fi
 echo Adding HTML documentation to repository index
 git add $INPUT_TARGET_PATH
 echo Recording changes to repository

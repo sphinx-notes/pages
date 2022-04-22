@@ -10,11 +10,6 @@ Help you deploying your Sphinx documentation to Github Pages.
 Usage
 =====
 
-.. note::
-
-   You should enable extension ``sphinx.ext.githubpages`` in your ``conf.py``
-   first.
-
 This action only help you build and commit Sphinx documentation to ``gh-pages``,
 branch. So we need some other actions:
 
@@ -58,7 +53,7 @@ Input                   Default        Required     Description
                                                     source files
 ``target_branch``       ``'gh-pages'`` ``false``    Git branch where assets will
                                                     be deployed
-``target_path``          ``'.'``        ``false``    Directory in Github Pages
+``target_path``          ``'.'``        ``false``   Directory in Github Pages
                                                     where Sphinx Pages will be
                                                     placed
 ``repository_path``     ``'.'``        ``false``    Relative path under
