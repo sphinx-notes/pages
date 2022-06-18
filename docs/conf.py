@@ -22,7 +22,7 @@ copyright = '2020, Shengyu Zhang'
 author = 'Shengyu Zhang'
 
 # The full version, including alpha/beta/rc tags
-release = '1.0a'
+release = 'v2'
 
 
 # -- General configuration ---------------------------------------------------
@@ -30,7 +30,7 @@ release = '1.0a'
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = []
+extensions = ['sphinx.ext.githubpages']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -64,6 +64,6 @@ html_static_path = ['_static']
 
 # The URL which points to the root of the HTML documentation.
 # It is used to indicate the location of document like canonical_url
-html_baseurl = 'https://sphinx-notes.github.io/pages'
+html_baseurl = 'https://sphinx.silverrainz.me'
 
 html_logo = html_favicon = '_images/sphinx-notes.png'
