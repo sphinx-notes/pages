@@ -45,13 +45,13 @@ if [ ! -z "$INPUT_REQUIREMENTS_PATH" ] ; then
     echo ::endgroup::
 fi
 
-echo ::group:: Creating temp directory
-tmp_dir=$(mktemp -d -t pages-XXXXXXXXXX)
-echo Temp directory \"$tmp_dir\" is created
-echo ::endgroup::
+echo ::group:: Creating build directory
+build_dir=/tmp/sphinxnotes-pages
+mkdir -p $build_dir || true
+echo Temp directory \"$build_dir\" is created
 
 echo ::group:: Running Sphinx builder
-if ! sphinx-build -b html "$doc_dir" "$tmp_dir"; then
+if ! sphinx-build -b html "$doc_dir" "$build_dir"; then
     echo ::endgroup::
     echo ::group:: Dumping Sphinx error log 
     for l in $(ls /tmp/sphinx-err*); do
@@ -82,11 +82,11 @@ echo ::endgroup::
 echo ::group:: Committing HTML documentation
 cd $repo_dir
 echo Deleting all file in repository
-rm -vrf *
+rm -vrf * # TODO: Keep CNAME
 echo Copying HTML documentation to repository
+cp -vr $build_dir/. $INPUT_TARGET_PATH
 # Remove unused doctree
-rm -rf $tmp_dir/.doctrees
-cp -vr $tmp_dir/. $INPUT_TARGET_PATH
+rm -rf $INPUT_TARGET_PATH/.doctrees
 if [ ! -f "$INPUT_TARGET_PATH/.nojekyll" ]; then
     # See also sphinxnotes/pages#7
     echo Creating .nojekyll file
