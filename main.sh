@@ -45,6 +45,23 @@ if [ ! -z "$INPUT_REQUIREMENTS_PATH" ] ; then
     echo ::endgroup::
 fi
 
+# Sphinx HTML builder will rebuild the whole project when modification time
+ # (mtime) of templates of theme newer than built result. [1]
+#
+# These theme templates vendored in pip packages are newly installed,
+# so their mtime always newr than the built result.
+# Set mtime to 1990 to make sure the project won't rebuilt.
+#
+# .. [1] https://github.com/sphinx-doc/sphinx/blob/5.x/sphinx/builders/html/__init__.py#L417
+echo ::group:: Fixing timestamp of HTML theme 
+site_packages_dir=$(python -c 'import site; print(site.getsitepackages()[0])')
+echo Python site-packages directory: $site_packages_dir
+for i in $(find $site_packages_dir -name '*.html'); do
+    touch -m -t 190001010000 $i
+    echo Fixing timestamp of $i
+done
+echo ::endgroup::
+
 echo ::group:: Creating build directory
 build_dir=/tmp/sphinxnotes-pages
 mkdir -p $build_dir || true
