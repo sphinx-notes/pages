@@ -51,7 +51,7 @@ echo Temp directory \"$tmp_dir\" is created
 echo ::endgroup::
 
 echo ::group:: Running Sphinx builder
-if ! sphinx-build -b html "$doc_dir" "$tmp_dir"; then
+if ! sphinx-build -b html "$doc_dir" "$tmp_dir" $INPUT_SPHINX_OPTIONS; then
     echo ::endgroup::
     echo ::group:: Dumping Sphinx error log 
     for l in $(ls /tmp/sphinx-err*); do

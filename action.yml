@@ -30,6 +30,10 @@ inputs:
     description: 'Version of Sphinx'
     required: false
     default: ''
+  sphinx_options:
+    description: 'Additional Sphinx options'
+    required: false
+    default: ''
 
 runs:
   using: 'node12'
