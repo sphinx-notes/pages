@@ -38,6 +38,8 @@ So your workflow file should be:
          uses: sphinx-notes/pages@v2
        - name: Push changes
          uses: ad-m/github-push-action@master
+         env:
+           SPHINXOPTS: ""
          with:
            github_token: ${{ secrets.GITHUB_TOKEN }}
            branch: gh-pages
