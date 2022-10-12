@@ -30,7 +30,7 @@ inputs:
     description: 'Version of Sphinx'
     required: false
     default: ''
-  SPHINXOPTS:
+  sphinx_options:
     description: 'Additional Sphinx options'
     required: false
     default: ''

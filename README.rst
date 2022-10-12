@@ -67,7 +67,7 @@ Input                   Default        Required     Description
                                                     ``$repository_path`` to pip
                                                     requirements file
 ``sphinx_version``      ``''``         ``false``    Custom version of Sphinx
-``SPHINXOPTS``          ``''``         ``false``    Additional Sphinx options
+``sphinx_options``          ``''``         ``false``    Additional Sphinx options
 ======================= ============== ============ =============================
 
 Examples
