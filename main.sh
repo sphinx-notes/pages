@@ -45,6 +45,17 @@ if [ ! -z "$INPUT_REQUIREMENTS_PATH" ] ; then
     echo ::endgroup::
 fi
 
+if [ ! -z "$PYPROJECT_TOML_DEPENDENCIES" ] ; then
+    echo ::group:: Installing project from pyproject.toml
+    if [ -f "$repo_dir/pyproject.toml" ]; then
+        echo Installing python project from pyproject.toml file
+        pip3 install "$PYPROJECT_TOML_DEPENDENCIES"
+    else
+        echo No pyproject.toml found, skipped
+    fi
+    echo ::endgroup::
+fi
+
 echo ::group:: Creating temp directory
 tmp_dir=$(mktemp -d -t pages-XXXXXXXXXX)
 echo Temp directory \"$tmp_dir\" is created
