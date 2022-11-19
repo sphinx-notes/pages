@@ -26,6 +26,10 @@ inputs:
     description: 'Relative path under $repository_path to pip requirements file'
     required: false
     default: './requirements.txt'
+  pyproject_toml_dependencies:
+    description: 'Dependency specification for installation with pyproject.toml'
+    required: false
+    default: '.'
   sphinx_version:
     description: 'Version of Sphinx'
     required: false
