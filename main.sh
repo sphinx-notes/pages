@@ -45,11 +45,11 @@ if [ ! -z "$INPUT_REQUIREMENTS_PATH" ] ; then
     echo ::endgroup::
 fi
 
-if [ ! -z "$PYPROJECT_TOML_DEPS" ] ; then
+if [ ! -z "$INPUT_PYPROJECT_TOML_DEPS" ] ; then
     echo ::group:: Installing project from pyproject.toml
     if [ -f "$repo_dir/pyproject.toml" ]; then
         echo Installing python project from pyproject.toml file
-        pip3 install "$PYPROJECT_TOML_DEPS"
+        pip3 install "$INPUT_PYPROJECT_TOML_DEPS"
     else
         echo No pyproject.toml found, skipped
     fi
