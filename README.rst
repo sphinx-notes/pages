@@ -66,6 +66,9 @@ Input                   Default        Required     Description
 ``requirements_path``   ``''``         ``false``    Relative path under
                                                     ``$repository_path`` to pip
                                                     requirements file
+``pyproject_toml_deps`` ``''``         ``false``    Optional dependency specifier
+                                                    for command ``pip install``
+                                                    with pyproject.toml
 ``sphinx_version``      ``''``         ``false``    Custom version of Sphinx
 ``sphinx_options``      ``''``         ``false``    Additional Sphinx options
 ======================= ============== ============ =============================
