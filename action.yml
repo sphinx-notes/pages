@@ -49,7 +49,7 @@ runs:
         python-version: '3.10'
         cache: 'pip'
 
-    - name: Setup cache
+    - name: Restore cache
       uses: actions/cache@v3
       if: ${{ inputs.cache == 'true' }}
       with:
@@ -76,7 +76,7 @@ runs:
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v1
       with:
-        path: '.' # Upload entire repository
+        path: /tmp/sphinxnotes-pages
 
     - name: Deploy to GitHub Pages
       id: deployment
