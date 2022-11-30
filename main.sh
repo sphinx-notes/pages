@@ -53,7 +53,7 @@ fi
 # Set mtime to 1990 to make sure the project won't rebuilt.
 #
 # .. [1] https://github.com/sphinx-doc/sphinx/blob/5.x/sphinx/builders/html/__init__.py#L417
-echo ::group:: Fixing timestamp of HTML theme 
+echo ::group:: Fixing timestamp of HTML theme
 site_packages_dir=$(python -c 'import site; print(site.getsitepackages()[0])')
 echo Python site-packages directory: $site_packages_dir
 for i in $(find $site_packages_dir -name '*.html'); do
@@ -70,7 +70,7 @@ echo Temp directory \"$build_dir\" is created
 echo ::group:: Running Sphinx builder
 if ! sphinx-build -b html "$doc_dir" "$build_dir"; then
     echo ::endgroup::
-    echo ::group:: Dumping Sphinx error log 
+    echo ::group:: Dumping Sphinx error log
     for l in $(ls /tmp/sphinx-err*); do
         cat $l
     done
@@ -98,8 +98,11 @@ echo ::endgroup::
 
 echo ::group:: Committing HTML documentation
 cd $repo_dir
-echo Deleting all file in repository
-rm -vrf * # TODO: Keep CNAME
+echo Cleanup files in repository
+# Enable extglob for !("xxx") pattern support
+shopt -s extglob
+rm -vrf !("CNAME"|".nojekyll"|"robots.txt")
+shopt -u extglob
 echo Copying HTML documentation to repository
 cp -vr $build_dir/. $INPUT_TARGET_PATH
 # Remove unused doctree
