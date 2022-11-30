@@ -32,5 +32,15 @@ inputs:
     default: ''
 
 runs:
-  using: 'node12'
-  main: 'main.js'
+  using: "composite"
+  steps:
+    - run: ${{ github.action_path }}/main.sh
+      shell: bash
+      env:
+        # See https://github.com/actions/runner/issues/665
+        INPUT_DOCUMENTATION_PATH: ${{ inputs.documentation_path }}
+        INPUT_TARGET_BRANCH: ${{ inputs.target_branch }}
+        INPUT_TARGET_PATH: ${{ inputs.target_path }}
+        INPUT_REPOSITORY_PATH: ${{ inputs.repository_path }}
+        INPUT_REQUIREMENTS_PATH: ${{ inputs.requirements_path }}
+        INPUT_SPHINX_VERSION: ${{ inputs.sphinx_version }}

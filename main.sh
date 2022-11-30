@@ -6,7 +6,7 @@ set -e
 repo_dir=$GITHUB_WORKSPACE/$INPUT_REPOSITORY_PATH
 doc_dir=$repo_dir/$INPUT_DOCUMENTATION_PATH
 # https://stackoverflow.com/a/4774063/4799273
-action_dir="$(cd -- "$(dirname "$-1")" >/dev/null 2>&1 ; pwd -P)"
+action_dir=$GITHUB_ACTION_PATH
 
 echo ::group:: Initialize various paths
 echo Action: $action_dir
@@ -26,7 +26,7 @@ else
     pip3 install -U sphinx==$INPUT_SPHINX_VERSION
 fi
 
-echo Adding user bin to system path
+echo Adding ~/.local/bin to system path
 PATH=$HOME/.local/bin:$PATH
 if ! command -v sphinx-build &>/dev/null; then
     echo Sphinx is not successfully installed
