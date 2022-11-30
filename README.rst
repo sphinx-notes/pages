@@ -67,6 +67,8 @@ Input                   Default        Required     Description
                                                     ``$repository_path`` to pip
                                                     requirements file
 ``sphinx_version``      ``''``         ``false``    Custom version of Sphinx
+``cache``               ``false``      ``false``    Enable cache to speed up
+                                                    documentation building
 ======================= ============== ============ =============================
 
 Examples

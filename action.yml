@@ -30,10 +30,21 @@ inputs:
     description: 'Version of Sphinx'
     required: false
     default: ''
+  cache:
+    description: 'Enable cache to speed up documentation building'
+    required: false
+    default: false
 
 runs:
   using: "composite"
   steps:
+    - uses: actions/cache@v3
+      if: ${{ inputs.cache == 'true' }}
+      with:
+        path: /tmp/sphinxnotes-pages
+        key: sphinxnotes-pages-${{ runner.os }}-${{ github.run_id }} # https://github.com/actions/cache/blob/main/tips-and-workarounds.md#update-a-cache
+        restore-keys: |
+          sphinxnotes-pages-${{ runner.os }}
     - run: ${{ github.action_path }}/main.sh
       shell: bash
       env:
