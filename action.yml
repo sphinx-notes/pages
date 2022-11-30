@@ -38,14 +38,28 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - uses: actions/cache@v3
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0 # Required by git-restore-mtime
+
+    - name: Setup python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+        cache: 'pip'
+
+    - name: Setup cache
+      uses: actions/cache@v3
       if: ${{ inputs.cache == 'true' }}
       with:
         path: /tmp/sphinxnotes-pages
         key: sphinxnotes-pages-${{ runner.os }}-${{ github.run_id }} # https://github.com/actions/cache/blob/main/tips-and-workarounds.md#update-a-cache
         restore-keys: |
           sphinxnotes-pages-${{ runner.os }}
-    - run: ${{ github.action_path }}/main.sh
+
+    - name: Build documentation
+      run: ${{ github.action_path }}/main.sh
       shell: bash
       env:
         # See https://github.com/actions/runner/issues/665
@@ -55,3 +69,15 @@ runs:
         INPUT_REPOSITORY_PATH: ${{ inputs.repository_path }}
         INPUT_REQUIREMENTS_PATH: ${{ inputs.requirements_path }}
         INPUT_SPHINX_VERSION: ${{ inputs.sphinx_version }}
+
+    - name: Setup Pages
+      uses: actions/configure-pages@v2
+
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v1
+      with:
+        path: '.' # Upload entire repository
+
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v1
