@@ -7,15 +7,14 @@ Sphinx to GitHub Pages V3
 
 Help you deploying your Sphinx documentation to Github Pages.
 
+.. warning:: v3 is **in beta and subject to change**, use v2__ if you need a stable version.
+
+__ https://github.com/sphinx-notes/pages/tree/v2
+
 Usage
 =====
 
 1. `Set the publishing sources to "Github Actions"`__
-
-   .. note:: Publishing your GitHub Pages site with GitHub Actions workflow is **in beta and subject to change**.
-
-   __ https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#publishing-with-a-custom-github-actions-workflow
-
 2. Create workflow:
 
    .. code-block:: yaml
@@ -39,6 +38,9 @@ Usage
           steps:
           - id: deployment
             uses: sphinx-notes/pages@v3
+
+
+__ https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#publishing-with-a-custom-github-actions-workflow
 
 Inputs
 ======
