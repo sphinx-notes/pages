@@ -1,5 +1,5 @@
 =========================
-Sphinx to GitHub Pages V2
+Sphinx to GitHub Pages V3
 =========================
 
 .. image:: https://img.shields.io/github/stars/sphinx-notes/pages.svg?style=social&label=Star&maxAge=2592000
@@ -10,66 +10,58 @@ Help you deploying your Sphinx documentation to Github Pages.
 Usage
 =====
 
-This action only help you build and commit Sphinx documentation to ``gh-pages``,
-branch. So we need some other actions:
+1. `Set the publishing sources to "Github Actions"`__
 
-- ``action/setup-python`` for installing python and pip
-- ``actions/checkout`` for checking out git repository
-- ``ad-m/github-push-action`` for pushing site to remote
+   .. note:: Publishing your GitHub Pages site with GitHub Actions workflow is **in beta and subject to change**.
 
-So your workflow file should be:
+   __ https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#publishing-with-a-custom-github-actions-workflow
 
-.. code-block:: yaml
+2. Create workflow:
 
-   name: Pages
-   on:
-     push:
-       branches:
-       - master
-   jobs:
-     build:
-       runs-on: ubuntu-latest
-       steps:
-       - uses: actions/setup-python@v2
-       - uses: actions/checkout@master
-         with:
-           fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
-       - name: Build and Commit
-         uses: sphinx-notes/pages@v2
-       - name: Push changes
-         uses: ad-m/github-push-action@master
-         with:
-           github_token: ${{ secrets.GITHUB_TOKEN }}
-           branch: gh-pages
+   .. code-block:: yaml
+
+      name: Deploy Sphinx documentation to Pages
+
+      # Runs on pushes targeting the default branch
+      on:
+        push:
+          branches: [master]
+
+      jobs:
+        pages:
+          runs-on: ubuntu-20.04
+          environment:
+            name: github-pages
+            url: ${{ steps.deployment.outputs.page_url }}
+          permissions:
+            pages: write
+            id-token: write
+          steps:
+          - id: deployment
+            uses: sphinx-notes/pages@v3
 
 Inputs
 ======
 
-======================= ============== ============ =============================
-Input                   Default        Required     Description
------------------------ -------------- ------------ -----------------------------
-``documentation_path``  ``'./docs'``   ``false``    Relative path under
-                                                    repository to documentation
-                                                    source files
-``target_branch``       ``'gh-pages'`` ``false``    Git branch where assets will
-                                                    be deployed
-``target_path``          ``'.'``        ``false``   Directory in Github Pages
-                                                    where Sphinx Pages will be
-                                                    placed
-``repository_path``     ``'.'``        ``false``    Relative path under
-                                                    ``$GITHUB_WORKSPACE`` to
-                                                    place the repository.
-                                                    You not need to set this
-                                                    Input unless you checkout
-                                                    the repository to a custom
-                                                    path
-``requirements_path``   ``''``         ``false``    Relative path under
-                                                    ``$repository_path`` to pip
-                                                    requirements file
-``sphinx_version``      ``''``         ``false``    Custom version of Sphinx
-``cache``               ``false``      ``false``    Enable cache to speed up
-                                                    documentation building
-======================= ============== ============ =============================
+======================= ================================ ======== =============================
+Input                   Default                          Required Description
+----------------------- -------------------------------- -------- -----------------------------
+``documentation_path``  ``./docs``                       false    Path to Sphinx source files
+``requirements_path``   ``./docs/requirements.txt``      false    Path to to requirements file
+``python_version``      ``3.10``                         false    Version of Python
+``sphinx_version``      ``5.3``                          false    Version of Sphinx
+``cache``               ``false``                        false    Enable cache to speed up
+                                                                  documentation building
+======================= ================================ ======== =============================
+
+Outputs
+=======
+
+======================= ======================================================================
+Output                   Description
+----------------------- ----------------------------------------------------------------------
+``page_url``            URL to deployed GitHub Pages
+======================= ======================================================================
 
 Examples
 ========

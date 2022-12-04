@@ -7,25 +7,17 @@ branding:
   icon: 'upload-cloud'
 inputs:
   documentation_path:
-    description: 'Relative path under $repository_path to documentation source files'
+    description: 'Path to Sphinx source files'
     required: false
     default: './docs'
-  target_branch:
-    description: 'Git branch where Github Pages will be deployed'
-    required: false
-    default: 'gh-pages'
-  target_path:
-    description: 'Path in Github Pages where Sphinx Pages will be placed'
-    required: false
-    default: '.'
-  repository_path:
-    description: 'Relative path under $GITHUB_WORKSPACE to place the repository'
-    required: false
-    default: '.'
   requirements_path:
-    description: 'Relative path under $repository_path to pip requirements file'
+    description: 'Path to requirements file'
     required: false
-    default: './requirements.txt'
+    default: './docs/requirements.txt'
+  python_version:
+    description: 'Version of Python'
+    required: false
+    default: '3.10'
   sphinx_version:
     description: 'Version of Sphinx'
     required: false
@@ -34,27 +26,42 @@ inputs:
     description: 'Enable cache to speed up documentation building'
     required: false
     default: false
+outputs:
+  page_url:
+    description: 'URL to deployed GitHub Pages'
+    value: ${{ steps.deployment.outputs.page_url }}
 
 runs:
   using: "composite"
   steps:
     - name: Checkout
       uses: actions/checkout@v3
+      if: ${{ inputs.cache == 'true' }}
       with:
         fetch-depth: 0 # Required by git-restore-mtime
+    - name: Checkout
+      uses: actions/checkout@v3
+      if: ${{ inputs.cache == 'false' }}
 
     - name: Setup python
       uses: actions/setup-python@v4
+      if: ${{ inputs.cache == 'true' }}
       with:
-        python-version: '3.10'
+        python-version: ${{ inputs.python_version }}
         cache: 'pip'
+    - name: Setup python
+      uses: actions/setup-python@v4
+      if: ${{ inputs.cache == 'false' }}
+      with:
+        python-version: ${{ inputs.python_version }}
 
     - name: Restore cache
       uses: actions/cache@v3
       if: ${{ inputs.cache == 'true' }}
       with:
         path: /tmp/sphinxnotes-pages
-        key: sphinxnotes-pages-${{ runner.os }}-${{ github.run_id }} # https://github.com/actions/cache/blob/main/tips-and-workarounds.md#update-a-cache
+        # https://github.com/actions/cache/blob/main/tips-and-workarounds.md#update-a-cache
+        key: sphinxnotes-pages-${{ runner.os }}-${{ github.run_id }}
         restore-keys: |
           sphinxnotes-pages-${{ runner.os }}
 
@@ -64,11 +71,9 @@ runs:
       env:
         # See https://github.com/actions/runner/issues/665
         INPUT_DOCUMENTATION_PATH: ${{ inputs.documentation_path }}
-        INPUT_TARGET_BRANCH: ${{ inputs.target_branch }}
-        INPUT_TARGET_PATH: ${{ inputs.target_path }}
-        INPUT_REPOSITORY_PATH: ${{ inputs.repository_path }}
         INPUT_REQUIREMENTS_PATH: ${{ inputs.requirements_path }}
         INPUT_SPHINX_VERSION: ${{ inputs.sphinx_version }}
+        INPUT_CACHE: ${{ inputs.cache }}
 
     - name: Setup Pages
       uses: actions/configure-pages@v2

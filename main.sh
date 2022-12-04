@@ -39,9 +39,9 @@ echo ::endgroup::
 
 if [ ! -z "$INPUT_REQUIREMENTS_PATH" ] ; then
     echo ::group:: Installing requirements
-    if [ -f "$repo_dir/$INPUT_REQUIREMENTS_PATH" ]; then
+    if [ -f "$INPUT_REQUIREMENTS_PATH" ]; then
         echo Installing python requirements
-        pip3 install -r "$repo_dir/$INPUT_REQUIREMENTS_PATH"
+        pip3 install -r "$INPUT_REQUIREMENTS_PATH"
     else
         echo No requirements.txt found, skipped
     fi
