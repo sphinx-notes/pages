@@ -1,20 +1,25 @@
-name: Pages
+name: Deploy Sphinx documentation to Pages
+
+# Runs on pushes targeting the default branch
 on:
- push:
-   branches:
-    - v2
+  push:
+    branches: [v3]
+
+# Cancel any in-progress job or run
+# https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#concurrency
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
- build:
-   runs-on: ubuntu-latest
-   steps:
-   - uses: actions/setup-python@v2
-   - uses: actions/checkout@master
-     with:
-       fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
-   - name: Build and Commit
-     uses: sphinx-notes/pages@v2
-   - name: Push changes
-     uses: ad-m/github-push-action@master
-     with:
-       github_token: ${{ secrets.GITHUB_TOKEN }}
-       branch: gh-pages
+  pages:
+    runs-on: ubuntu-20.04
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      pages: write
+      id-token: write
+    steps:
+    - id: deployment
+      uses: sphinx-notes/pages@v3
