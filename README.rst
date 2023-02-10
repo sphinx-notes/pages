@@ -50,7 +50,7 @@ Input                   Default                      Required Description
 ``documentation_path``  ``./docs``                   false    Path to Sphinx source files
 ``requirements_path``   ``./docs/requirements.txt``  false    Path to to requirements file,
                                                               used in `pip install -r XXX` command
-``pyproject_extras``   ``docs``                      false    Extras of `Requirement Specifier`__
+``pyproject_extras``    ``docs``                     false    Extras of `Requirement Specifier`__
                                                               used in `pip install .[XXX]`
 ``python_version``      ``3.10``                     false    Version of Python
 ``sphinx_version``      ``5.3``                      false    Version of Sphinx
@@ -103,6 +103,7 @@ It is useful when you have pushed new commit to remote but the job of previous
 commit is not finished yet. see concurrency__ for more details.
 
 .. code-block:: yaml
+
    concurrency:
      group: ${{ github.ref }}
      cancel-in-progress: true
