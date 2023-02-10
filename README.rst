@@ -39,31 +39,35 @@ Usage
           - id: deployment
             uses: sphinx-notes/pages@v3
 
-
 __ https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#publishing-with-a-custom-github-actions-workflow
 
 Inputs
 ======
 
-======================= ================================ ======== =============================
-Input                   Default                          Required Description
------------------------ -------------------------------- -------- -----------------------------
-``documentation_path``  ``./docs``                       false    Path to Sphinx source files
-``requirements_path``   ``./docs/requirements.txt``      false    Path to to requirements file
-``python_version``      ``3.10``                         false    Version of Python
-``sphinx_version``      ``5.3``                          false    Version of Sphinx
-``cache``               ``false``                        false    Enable cache to speed up
-                                                                  documentation building
-======================= ================================ ======== =============================
+======================= ============================ ======== ====================================
+Input                   Default                      Required Description
+----------------------- ---------------------------- -------- ------------------------------------
+``documentation_path``  ``./docs``                   false    Path to Sphinx source files
+``requirements_path``   ``./docs/requirements.txt``  false    Path to to requirements file,
+                                                              used in `pip install -r XXX` command
+``pyproject_extras``   ``docs``                      false    Extras of `Requirement Specifier`__
+                                                              used in `pip install .[XXX]`
+``python_version``      ``3.10``                     false    Version of Python
+``sphinx_version``      ``5.3``                      false    Version of Sphinx
+``cache``               ``false``                    false    Enable cache to speed up
+                                                              documentation building
+======================= ============================ ======== ====================================
+
+__ https://pip.pypa.io/en/stable/reference/requirement-specifiers/#overview
 
 Outputs
 =======
 
-======================= ======================================================================
-Output                   Description
------------------------ ----------------------------------------------------------------------
+======================= ============================
+Output                  Description
+----------------------- ----------------------------
 ``page_url``            URL to deployed GitHub Pages
-======================= ======================================================================
+======================= ============================
 
 Examples
 ========
@@ -76,7 +80,9 @@ The following repository's pages are built by this action:
 - https://github.com/sphinx-notes/snippet
 - https://github.com/sphinx-notes/lilypond
 - https://github.com/sphinx-notes/strike
-- ...
+- `and more...`__
+
+__ https://github.com/sphinx-notes/pages/network/dependents
 
 You can found the workflow file in their repository.
 
@@ -89,3 +95,16 @@ Copy extra files to site
 Use Sphinx confval html_extra_path__.
 
 __ https://www.sphinx-doc.org/en/master/usage/configuration.html#confval-html_extra_path
+
+Cancel any in-progress job
+==========================
+
+It is useful when you have pushed new commit to remote but the job of previous 
+commit is not finished yet. see concurrency__ for more details.
+
+.. code-block:: yaml
+   concurrency:
+     group: ${{ github.ref }}
+     cancel-in-progress: true
+
+__ https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#concurrency
