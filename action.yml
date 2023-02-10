@@ -11,9 +11,13 @@ inputs:
     required: false
     default: './docs'
   requirements_path:
-    description: 'Path to requirements file'
+    description: 'Path to requirements file, used in `pip install -r XXX` command'
     required: false
     default: './docs/requirements.txt'
+  pyproject_extras:
+    description: 'Extras of Requirement Specifier, used in `pip install .[XXX]` command'
+    required: false
+    default: 'docs'
   python_version:
     description: 'Version of Python'
     required: false
@@ -72,6 +76,7 @@ runs:
         # See https://github.com/actions/runner/issues/665
         INPUT_DOCUMENTATION_PATH: ${{ inputs.documentation_path }}
         INPUT_REQUIREMENTS_PATH: ${{ inputs.requirements_path }}
+        INPUT_PYPROJECT_EXTRAS: ${{ inputs.pyproject_extras }}
         INPUT_SPHINX_VERSION: ${{ inputs.sphinx_version }}
         INPUT_CACHE: ${{ inputs.cache }}
 

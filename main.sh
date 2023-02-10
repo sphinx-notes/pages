@@ -38,12 +38,21 @@ fi
 echo ::endgroup::
 
 if [ ! -z "$INPUT_REQUIREMENTS_PATH" ] ; then
-    echo ::group:: Installing requirements
+    echo ::group:: Installing dependencies declared by $INPUT_REQUIREMENTS_PATH
     if [ -f "$INPUT_REQUIREMENTS_PATH" ]; then
-        echo Installing python requirements
         pip3 install -r "$INPUT_REQUIREMENTS_PATH"
     else
-        echo No requirements.txt found, skipped
+        echo No $INPUT_REQUIREMENTS_PATH found, skipped
+    fi
+    echo ::endgroup::
+fi
+
+if [ ! -z "$INPUT_PYPROJECT_EXTRAS" ] ; then
+    echo ::group:: Installing dependencies declared by pyproject.toml[$INPUT_PYPROJECT_EXTRAS]
+    if [ -f "pyproject.toml" ]; then
+        pip3 install .[$INPUT_PYPROJECT_EXTRAS]
+    else
+        echo No pyproject.toml found, skipped
     fi
     echo ::endgroup::
 fi
