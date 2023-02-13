@@ -5,7 +5,7 @@ Sphinx to GitHub Pages V3
 .. image:: https://img.shields.io/github/stars/sphinx-notes/pages.svg?style=social&label=Star&maxAge=2592000
    :target: https://github.com/sphinx-notes/pages
 
-Help you deploying your Sphinx documentation to Github Pages.
+Helps you deploy your Sphinx documentation to Github Pages.
 
 .. warning:: v3 is **in beta and subject to change**, use v2__ if you need a stable version.
 
@@ -82,7 +82,7 @@ The following repository's pages are built by this action:
 - https://github.com/sphinx-notes/strike
 - `and more...`__
 
-You can found the workflow file in aboved repositories.
+You can find the workflow file in the above repositories.
 
 __ https://github.com/sphinx-notes/pages/network/dependents
 
@@ -90,17 +90,17 @@ Tips
 ====
 
 Copy extra files to site
-========================
+************************
 
 Use Sphinx confval html_extra_path__.
 
 __ https://www.sphinx-doc.org/en/master/usage/configuration.html#confval-html_extra_path
 
 Cancel any in-progress job
-==========================
+**************************
 
-It is useful when you have pushed new commit to remote but the job of previous 
-commit is not finished yet. see concurrency__ for more details.
+It is useful when you have pushed a new commit to remote but the job of the previous 
+commit is not finished yet. See concurrency__ for more details.
 
 .. code-block:: yaml
 
