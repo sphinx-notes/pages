@@ -44,9 +44,9 @@ __ https://docs.github.com/en/pages/getting-started-with-github-pages/configurin
 Inputs
 ======
 
-========================== ============================ ======== ==============================================
+========================== ============================ ======== =================================================
 Input                      Default                      Required Description
--------------------------- ---------------------------- -------- ----------------------------------------------
+-------------------------- ---------------------------- -------- -------------------------------------------------
 ``documentation_path``     ``./docs``                   false    Path to Sphinx source files
 ``requirements_path``      ``./docs/requirements.txt``  false    Path to to requirements file,
                                                                  used in ``pip install -r XXX`` command
@@ -54,9 +54,11 @@ Input                      Default                      Required Description
                                                                  used in ``pip install .[XXX]``
 ``python_version``         ``3.10``                     false    Version of Python
 ``sphinx_version``         ``5.3``                      false    Version of Sphinx
-``sphinx_build_options``   ````                         false    Additional options passed to ``sphinx-build``
+``sphinx_build_options``                                false    Additional options passed to ``sphinx-build``
 ``cache``                  ``false``                    false    Enable cache to speed up documentation building
-========================== ============================ ======== ===============================================
+``checkout``               ``true``                     false    Whether to automatically checkout the repository,
+                                                                 if false, user need to do it byself
+========================== ============================ ======== =================================================
 
 __ https://pip.pypa.io/en/stable/reference/requirement-specifiers/#overview
 
@@ -119,3 +121,23 @@ For non-python dependencies, add a step to your workflow file, and install them 
 (such as apt, wget, ...). See `#24`__ for example.
 
 __ https://github.com/sphinx-notes/pages/issues/24
+
+Customize checkout options
+**************************
+
+Repository is automatically checkout by default, but some user may need to customize checkout options
+(For example, checkout private repository, checkout multiple repositories).
+For this case, user can set the ``checkout`` options to ``false``, then use `action/checkout`__ byeself.
+
+.. code:: yaml
+
+   steps:
+   - uses: actions/checkout@master
+     with:
+       YOUR_CUSTOM_OPTIONS: ...
+   - id: deployment
+     uses: sphinx-notes/pages@v3
+     with:
+       checkout: false
+
+__ https://github.com/actions/checkout
