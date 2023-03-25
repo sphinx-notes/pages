@@ -109,3 +109,13 @@ commit is not finished yet. See concurrency__ for more details.
      cancel-in-progress: true
 
 __ https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#concurrency
+
+Install extra dependencies
+**************************
+
+For python dependencies, just add them to your ``requirements.txt`` or ``pyproject.toml`` file.
+
+For non-python dependencies, add a step to your workflow file, and install them with the appropriate tools
+(such as apt, wget, ...). See `#24`__ for example.
+
+__ https://github.com/sphinx-notes/pages/issues/24
