@@ -87,7 +87,7 @@ mkdir -p $build_dir || true
 echo Temp directory \"$build_dir\" is created
 
 echo ::group:: Running Sphinx builder
-if ! sphinx-build -b html "$doc_dir" "$build_dir"; then
+if ! sphinx-build -b html $INPUT_SPHINX_BUILD_OPTIONS "$doc_dir" "$build_dir"; then
     echo ::endgroup::
     echo ::group:: Dumping Sphinx error log
     for l in $(ls /tmp/sphinx-err*); do
