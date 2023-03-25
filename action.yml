@@ -34,6 +34,10 @@ inputs:
     description: 'Additional options passed to sphinx-build'
     required: false
     default: ''
+  checkout:
+    description: 'Whether to automatically checkout the repository, if false, user need to do it byself'
+    required: false
+    default: true
 outputs:
   page_url:
     description: 'URL to deployed GitHub Pages'
@@ -44,12 +48,12 @@ runs:
   steps:
     - name: Checkout
       uses: actions/checkout@v3
-      if: ${{ inputs.cache == 'true' }}
+      if: ${{ inputs.chekcout == 'true' && inputs.cache == 'true' }}
       with:
         fetch-depth: 0 # Required by git-restore-mtime
     - name: Checkout
       uses: actions/checkout@v3
-      if: ${{ inputs.cache == 'false' }}
+      if: ${{ inputs.chekcout == 'true' && inputs.cache == 'false' }}
 
     - name: Setup python
       uses: actions/setup-python@v4
