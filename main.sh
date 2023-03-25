@@ -3,16 +3,18 @@
 # set -x
 set -e
 
+echo ::group:: Initialize various paths
+
 repo_dir=$GITHUB_WORKSPACE/$INPUT_REPOSITORY_PATH
 doc_dir=$repo_dir/$INPUT_DOCUMENTATION_PATH
 # https://stackoverflow.com/a/4774063/4799273
 action_dir=$GITHUB_ACTION_PATH
 
-echo ::group:: Initialize various paths
 echo Action: $action_dir
 echo Workspace: $GITHUB_WORKSPACE
 echo Repository: $repo_dir
 echo Documentation: $doc_dir
+
 echo ::endgroup::
 
 # The actions doesn't depends on any images,
@@ -96,3 +98,5 @@ if ! sphinx-build -b html $INPUT_SPHINX_BUILD_OPTIONS "$doc_dir" "$build_dir"; t
     exit 1
 fi
 echo ::endgroup::
+
+echo "artifact=$build_dir" >> $GITHUB_OUTPUT
