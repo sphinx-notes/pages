@@ -30,6 +30,10 @@ inputs:
     description: 'Enable cache to speed up documentation building'
     required: false
     default: false
+  sphinx_build_options:
+    description: 'Additional options passed to sphinx-build'
+    required: false
+    default: ''
 outputs:
   page_url:
     description: 'URL to deployed GitHub Pages'
