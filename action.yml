@@ -79,6 +79,7 @@ runs:
         INPUT_PYPROJECT_EXTRAS: ${{ inputs.pyproject_extras }}
         INPUT_SPHINX_VERSION: ${{ inputs.sphinx_version }}
         INPUT_CACHE: ${{ inputs.cache }}
+        INPUT_SPHINX_BUILD_OPTIONS: ${{ inputs.sphinx_build_options }}
 
     - name: Setup Pages
       uses: actions/configure-pages@v2

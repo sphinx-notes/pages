@@ -44,19 +44,19 @@ __ https://docs.github.com/en/pages/getting-started-with-github-pages/configurin
 Inputs
 ======
 
-======================= ============================ ======== ======================================
-Input                   Default                      Required Description
------------------------ ---------------------------- -------- --------------------------------------
-``documentation_path``  ``./docs``                   false    Path to Sphinx source files
-``requirements_path``   ``./docs/requirements.txt``  false    Path to to requirements file,
-                                                              used in ``pip install -r XXX`` command
-``pyproject_extras``    ``docs``                     false    Extras of `Requirement Specifier`__
-                                                              used in ``pip install .[XXX]``
-``python_version``      ``3.10``                     false    Version of Python
-``sphinx_version``      ``5.3``                      false    Version of Sphinx
-``cache``               ``false``                    false    Enable cache to speed up documentation
-                                                              building
-======================= ============================ ======== ======================================
+========================== ============================ ======== ==============================================
+Input                      Default                      Required Description
+-------------------------- ---------------------------- -------- ----------------------------------------------
+``documentation_path``     ``./docs``                   false    Path to Sphinx source files
+``requirements_path``      ``./docs/requirements.txt``  false    Path to to requirements file,
+                                                                 used in ``pip install -r XXX`` command
+``pyproject_extras``       ``docs``                     false    Extras of `Requirement Specifier`__
+                                                                 used in ``pip install .[XXX]``
+``python_version``         ``3.10``                     false    Version of Python
+``sphinx_version``         ``5.3``                      false    Version of Sphinx
+``sphinx_build_options``   ````                         false    Additional options passed to ``sphinx-build``
+``cache``                  ``false``                    false    Enable cache to speed up documentation building
+========================== ============================ ======== ===============================================
 
 __ https://pip.pypa.io/en/stable/reference/requirement-specifiers/#overview
 
