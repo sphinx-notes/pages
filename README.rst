@@ -7,25 +7,21 @@ Sphinx to GitHub Pages V3
 
 Helps you deploy your Sphinx documentation to Github Pages.
 
-.. warning:: v3 is **in beta and subject to change**, use v2__ if you need a stable version.
-
-__ https://github.com/sphinx-notes/pages/tree/v2
-
 Usage
 =====
 
+We provides two ways for publishing GitHub pages.
+The first one is the default but **still in beta**, use the second one if you tend to be stable.
+
+Publishing with this action (default)
+***************************************
+
 1. `Set the publishing sources to "Github Actions"`__
-2. Create workflow:
+2. Create the following workflow:
 
    .. code-block:: yaml
 
       name: Deploy Sphinx documentation to Pages
-
-      # Runs on pushes targeting the default branch
-      on:
-        push:
-          branches: [master]
-
       jobs:
         pages:
           runs-on: ubuntu-20.04
@@ -41,6 +37,33 @@ Usage
 
 __ https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#publishing-with-a-custom-github-actions-workflow
 
+Publishing from a branch (classical)
+************************************
+
+1. Create a branch ``gh-pages``
+2. `Set the publishing sources to "Deploy from a branch"`__, then specify the branch just created
+3. Create the following workflow, in this way user need to publish the site by another action,
+   we use `peaceiris/actions-gh-pages`__ here:
+
+   .. code-block:: yaml
+
+      name: Deploy Sphinx documentation to Pages
+      jobs:
+        pages:
+          runs-on: ubuntu-20.04
+          steps:
+          - id: deployment
+            uses: sphinx-notes/pages@v3
+            with:
+              publish: false
+          - uses: peaceiris/actions-gh-pages@v3
+            with:
+              github_token: ${{ secrets.GITHUB_TOKEN }}
+              publish_dir: ${{ steps.deployment.outputs.artifact }}
+
+__ https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site#publishing-from-a-branch
+__ https://github.com/peaceiris/actions-gh-pages
+
 Inputs
 ======
 
@@ -52,12 +75,24 @@ Input                      Default                      Required Description
                                                                  used in ``pip install -r XXX`` command
 ``pyproject_extras``       ``docs``                     false    Extras of `Requirement Specifier`__
                                                                  used in ``pip install .[XXX]``
+========================== ============================ ======== =================================================
+
+Advanced
+********
+
+In most cases you don't need to know about the following inputs.
+Unless you need to highly customize the action's behavior.
+
+========================== ============================ ======== =================================================
+Input                      Default                      Required Description
+-------------------------- ---------------------------- -------- -------------------------------------------------
 ``python_version``         ``3.10``                     false    Version of Python
 ``sphinx_version``         ``5.3``                      false    Version of Sphinx
 ``sphinx_build_options``                                false    Additional options passed to ``sphinx-build``
 ``cache``                  ``false``                    false    Enable cache to speed up documentation building
 ``checkout``               ``true``                     false    Whether to automatically checkout the repository,
                                                                  if false, user need to do it byself
+``publish``                ``true``                     false    Whether to automatically publish the repository
 ========================== ============================ ======== =================================================
 
 __ https://pip.pypa.io/en/stable/reference/requirement-specifiers/#overview
@@ -65,11 +100,14 @@ __ https://pip.pypa.io/en/stable/reference/requirement-specifiers/#overview
 Outputs
 =======
 
-======================= ============================
+======================= =========================================================
 Output                  Description
------------------------ ----------------------------
-``page_url``            URL to deployed GitHub Pages
-======================= ============================
+----------------------- ---------------------------------------------------------
+``page_url``            URL to deployed GitHub Pages,
+                        only available when option ``publish`` is set to ``true``
+``artifact``            Directory where artifact (HTML documentation) is stored,
+                        user can use it to deploy GitHub Pages manually
+======================= =========================================================
 
 Examples
 ========

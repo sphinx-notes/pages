@@ -38,10 +38,17 @@ inputs:
     description: 'Whether to automatically checkout the repository, if false, user need to do it byself'
     required: false
     default: true
+  publish:
+    description: 'Whether to automatically publish the pages, if false, user need to manually publish by self'
+    required: false
+    default: true
 outputs:
   page_url:
-    description: 'URL to deployed GitHub Pages'
+    description: 'URL to deployed GitHub Pages, only available when option publish is set to true'
     value: ${{ steps.deployment.outputs.page_url }}
+  artifact:
+    description: 'Directory where artifact (HTML documentation) is stored, user can use it to deploy GitHub Pages manually'
+    value: ${{ steps.build.outputs.artifact }}
 
 runs:
   using: "composite"
@@ -77,7 +84,8 @@ runs:
         restore-keys: |
           sphinxnotes-pages-${{ runner.os }}
 
-    - name: Build documentation
+    - id: build
+      name: Build documentation
       run: ${{ github.action_path }}/main.sh
       shell: bash
       env:
@@ -91,12 +99,15 @@ runs:
 
     - name: Setup Pages
       uses: actions/configure-pages@v2
+      if: ${{ inputs.publish == 'true' }}
 
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v1
+      if: ${{ inputs.publish == 'true' }}
       with:
-        path: /tmp/sphinxnotes-pages
-
-    - name: Deploy to GitHub Pages
-      id: deployment
+        path: ${{ steps.build.outputs.artifact }}
+      
+    - id: deployment
+      name: Deploy to GitHub Pages
       uses: actions/deploy-pages@v1
+      if: ${{ inputs.publish == 'true' }}
