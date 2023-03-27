@@ -22,6 +22,11 @@ Publishing with this action (default)
    .. code-block:: yaml
 
       name: Deploy Sphinx documentation to Pages
+
+      on:
+        push:
+          branches: [master] # branch to trigger deployment
+
       jobs:
         pages:
           runs-on: ubuntu-20.04
@@ -48,6 +53,11 @@ Publishing from a branch (classical)
    .. code-block:: yaml
 
       name: Deploy Sphinx documentation to Pages
+
+      on:
+        push:
+          branches: [master] # branch to trigger deployment
+
       jobs:
         pages:
           runs-on: ubuntu-20.04
