@@ -90,11 +90,12 @@ echo Temp directory \"$build_dir\" is created
 
 echo ::group:: Running Sphinx builder
 if ! sphinx-build -b html $INPUT_SPHINX_BUILD_OPTIONS "$doc_dir" "$build_dir"; then
-    echo ::endgroup::
-    echo ::group:: Dumping Sphinx error log
-    for l in $(ls /tmp/sphinx-err*); do
-        cat $l
-    done
+    # See: https://github.com/sphinx-notes/pages/issues/28
+    # echo ::endgroup::
+    # echo ::group:: Dumping Sphinx error log
+    # for l in $(ls /tmp/sphinx-err*); do
+    #     cat $l
+    # done
     exit 1
 fi
 echo ::endgroup::
