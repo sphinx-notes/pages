@@ -97,7 +97,7 @@ Unless you need to highly customize the action's behavior.
 Input                      Default                      Required Description
 -------------------------- ---------------------------- -------- -------------------------------------------------
 ``python_version``         ``3.10``                     false    Version of Python
-``sphinx_version``         ``5.3``                      false    Version of Sphinx
+``sphinx_version``         ``latest``                   false    Version of Sphinx
 ``sphinx_build_options``                                false    Additional options passed to ``sphinx-build``
 ``cache``                  ``false``                    false    Enable cache to speed up documentation building
 ``checkout``               ``true``                     false    Whether to automatically checkout the repository,
@@ -126,8 +126,6 @@ The following repository's pages are built by this action:
 
 - https://github.com/SilverRainZ/bullet
 - https://github.com/sphinx-notes/pages
-- https://github.com/sphinx-notes/any
-- https://github.com/sphinx-notes/snippet
 - https://github.com/sphinx-notes/lilypond
 - https://github.com/sphinx-notes/strike
 - `and more...`__
