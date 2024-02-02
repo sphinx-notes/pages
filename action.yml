@@ -84,6 +84,9 @@ runs:
         restore-keys: |
           sphinxnotes-pages-${{ runner.os }}
 
+    - name: Enable github problem matcher
+      uses: sphinx-doc/github-problem-matcher@master
+
     - id: build
       name: Build documentation
       run: ${{ github.action_path }}/main.sh
@@ -101,19 +104,8 @@ runs:
       uses: actions/configure-pages@v2
       if: ${{ inputs.publish == 'true' }}
 
-    - name: Fix file permissions
-      shell: sh
-      if: runner.os == 'Linux'
-      run: |
-        chmod -c -R +rX "$INPUT_PATH" |
-        while read line; do
-           echo "::warning title=Invalid file permissions automatically fixed::$line"
-        done
-      env:
-        INPUT_PATH: ${{ steps.build.outputs.artifact }}
-
     - name: Upload artifact
-      uses: actions/upload-pages-artifact@v1
+      uses: SilverRainZ/upload-pages-artifact@main
       if: ${{ inputs.publish == 'true' }}
       with:
         path: ${{ steps.build.outputs.artifact }}
