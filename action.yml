@@ -84,6 +84,9 @@ runs:
         restore-keys: |
           sphinxnotes-pages-${{ runner.os }}
 
+    - name: Enable github problem matcher
+      uses: sphinx-doc/github-problem-matcher@master
+
     - id: build
       name: Build documentation
       run: ${{ github.action_path }}/main.sh
