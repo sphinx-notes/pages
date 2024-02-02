@@ -105,7 +105,7 @@ runs:
       if: ${{ inputs.publish == 'true' }}
 
     - name: Upload artifact
-      uses: actions/upload-pages-artifact@v2
+      uses: SilverRainZ/upload-pages-artifact@main
       if: ${{ inputs.publish == 'true' }}
       with:
         path: ${{ steps.build.outputs.artifact }}
