@@ -104,6 +104,18 @@ runs:
       uses: actions/configure-pages@v2
       if: ${{ inputs.publish == 'true' }}
 
+    - name: Fix file permissions
+      shell: sh
+      if: runner.os == 'Linux'
+      # https://github.com/actions/deploy-pages/issues/188 
+      run: |
+        chmod -c -R +rX "$INPUT_PATH" |
+        while read line; do
+           echo "::warning title=Invalid file permissions automatically fixed::$line"
+        done
+      env:
+        INPUT_PATH: ${{ steps.build.outputs.artifact }}
+
     - name: Upload artifact
       uses: SilverRainZ/upload-pages-artifact@main
       if: ${{ inputs.publish == 'true' }}
