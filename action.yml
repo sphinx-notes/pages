@@ -54,28 +54,28 @@ runs:
   using: "composite"
   steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: ${{ inputs.checkout == 'true' && inputs.cache == 'true' }}
       with:
         fetch-depth: 0 # Required by git-restore-mtime
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       if: ${{ inputs.checkout == 'true' && inputs.cache == 'false' }}
 
     - name: Setup python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       if: ${{ inputs.cache == 'true' }}
       with:
         python-version: ${{ inputs.python_version }}
         cache: 'pip'
     - name: Setup python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       if: ${{ inputs.cache == 'false' }}
       with:
         python-version: ${{ inputs.python_version }}
 
     - name: Restore cache
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       if: ${{ inputs.cache == 'true' }}
       with:
         path: /tmp/sphinxnotes-pages
@@ -101,7 +101,7 @@ runs:
         INPUT_SPHINX_BUILD_OPTIONS: ${{ inputs.sphinx_build_options }}
 
     - name: Setup Pages
-      uses: actions/configure-pages@v2
+      uses: actions/configure-pages@v4
       if: ${{ inputs.publish == 'true' }}
 
     - name: Fix file permissions
