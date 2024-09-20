@@ -90,12 +90,14 @@ echo Temp directory \"$build_dir\" is created
 
 echo ::group:: Running Sphinx builder
 if ! sphinx-build -b html $INPUT_SPHINX_BUILD_OPTIONS "$doc_dir" "$build_dir"; then
-    # See: https://github.com/sphinx-notes/pages/issues/28
-    # echo ::endgroup::
-    # echo ::group:: Dumping Sphinx error log
-    # for l in $(ls /tmp/sphinx-err*); do
-    #     cat $l
-    # done
+    echo ::group:: Dumping Sphinx traceback
+    for l in $(find /tmp -name 'sphinx-err*.log'); do
+        # Replace "\n" to "%0A" for supporting multiline text in the error message.
+        # https://github.com/actions/toolkit/issues/193#issuecomment-605394935
+        traceback=$(tail -n100 $l | awk '{ printf "%s%%0A", $0 }')
+        echo "::error title=Sphinx traceback::$traceback"
+    done
+    echo ::endgroup::
     exit 1
 fi
 echo ::endgroup::
