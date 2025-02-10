@@ -96,7 +96,7 @@ Unless you need to highly customize the action's behavior.
 ========================== ============================ ======== =================================================
 Input                      Default                      Required Description
 -------------------------- ---------------------------- -------- -------------------------------------------------
-``python_version``         ``3.10``                     false    Version of Python
+``python_version``         ``3.12``                     false    Version of Python
 ``sphinx_version``         ``latest``                   false    Version of Sphinx
 ``sphinx_build_options``                                false    Additional options passed to ``sphinx-build``
 ``cache``                  ``false``                    false    Enable cache to speed up documentation building
