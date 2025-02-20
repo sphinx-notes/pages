@@ -29,7 +29,7 @@ Publishing with this action (default)
 
       jobs:
         pages:
-          runs-on: ubuntu-20.04
+          runs-on: ubuntu-latest
           environment:
             name: github-pages
             url: ${{ steps.deployment.outputs.page_url }}
@@ -60,7 +60,7 @@ Publishing from a branch (classical)
 
       jobs:
         pages:
-          runs-on: ubuntu-20.04
+          runs-on: ubuntu-latest
           steps:
           - id: deployment
             uses: sphinx-notes/pages@v3
