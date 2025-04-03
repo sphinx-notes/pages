@@ -94,7 +94,7 @@ if ! sphinx-build -b html $INPUT_SPHINX_BUILD_OPTIONS "$doc_dir" "$build_dir"; t
     for l in $(find /tmp -name 'sphinx-err*.log'); do
         # Replace "\n" to "%0A" for supporting multiline text in the error message.
         # https://github.com/actions/toolkit/issues/193#issuecomment-605394935
-        traceback=$(tail -n100 $l | awk '{ printf "%s%%0A", $0 }')
+        traceback=$(tail -n500 $l | awk '{ printf "%s%%0A", $0 }')
         echo "::error title=Sphinx traceback::$traceback"
     done
     echo ::endgroup::
