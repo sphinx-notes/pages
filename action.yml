@@ -117,7 +117,7 @@ runs:
         INPUT_PATH: ${{ steps.build.outputs.artifact }}
 
     - name: Upload artifact
-      uses: actions/upload-pages-artifact@v3
+      uses: actions/upload-pages-artifact@v4
       if: ${{ inputs.publish == 'true' }}
       with:
         path: ${{ steps.build.outputs.artifact }}
