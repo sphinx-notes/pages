@@ -57,7 +57,7 @@ runs:
       uses: actions/checkout@v4
       if: ${{ inputs.checkout == 'true' && inputs.cache == 'true' }}
       with:
-        fetch-depth: 0 # Required by git-restore-mtime
+        fetch-depth: 0 # Required by sphinxnotes-incrbuild
     - name: Checkout
       uses: actions/checkout@v4
       if: ${{ inputs.checkout == 'true' && inputs.cache == 'false' }}
@@ -78,7 +78,7 @@ runs:
       uses: actions/cache@v4
       if: ${{ inputs.cache == 'true' }}
       with:
-        path: /tmp/sphinxnotes-pages
+        path: /tmp/sphinxnotes-incrbuild
         # https://github.com/actions/cache/blob/main/tips-and-workarounds.md#update-a-cache
         key: sphinxnotes-pages-${{ runner.os }}-${{ github.run_id }}
         restore-keys: |
