@@ -37,8 +37,6 @@ else
     echo Everything goes well
 fi
 
-pip3 install -U sphinxnotes-incrbuild
-
 echo ::endgroup::
 
 if [ ! -z "$INPUT_REQUIREMENTS_PATH" ] ; then
@@ -61,11 +59,37 @@ if [ ! -z "$INPUT_PYPROJECT_EXTRAS" ] ; then
     echo ::endgroup::
 fi
 
-echo ::group:: Running Sphinx builder
+echo ::group:: Preparations for incremental build
+
+# Sphinx HTML builder will rebuild the whole project when modification time
+ # (mtime) of templates of theme newer than built result. [1]
+#
+# These theme templates vendored in pip packages are newly installed,
+# so their mtime always newr than the built result.
+# Set mtime to 1990 to make sure the project won't rebuilt.
+#
+# .. [1] https://github.com/sphinx-doc/sphinx/blob/5.x/sphinx/builders/html/__init__.py#L417
+echo Fixing timestamp of HTML theme
+site_packages_dir=$(python -c 'import site; print(site.getsitepackages()[0])')
+echo Python site-packages directory: $site_packages_dir
+for i in $(find $site_packages_dir -name '*.html'); do
+    touch -m -t 190001010000 $i
+    echo Fixing timestamp of $i
+done
+
+echo Restoring timestamp of git repository
+git_restore_mtime=$action_dir/git-restore-mtime
+$git_restore_mtime $repo_dir
+
+echo ::endgroup::
+
+echo ::group:: Creating build directory
 build_dir=/tmp/sphinxnotes-pages
 mkdir -p $build_dir || true
 echo Temp directory \"$build_dir\" is created
-if ! sphinxnotes-incrbuild -b html $INPUT_SPHINX_BUILD_OPTIONS "$doc_dir" "$build_dir"; then
+
+echo ::group:: Running Sphinx builder
+if ! sphinx-build -b html $INPUT_SPHINX_BUILD_OPTIONS "$doc_dir" "$build_dir"; then
     echo ::group:: Dumping Sphinx traceback
     for l in $(find /tmp -name 'sphinx-err*.log'); do
         # Replace "\n" to "%0A" for supporting multiline text in the error message.
