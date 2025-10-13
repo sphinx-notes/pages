@@ -65,9 +65,13 @@ echo ::group:: Running Sphinx builder
 build_dir=/tmp/sphinxnotes-pages
 mkdir -p $build_dir || true
 echo Temp directory \"$build_dir\" is created
-if ! sphinxnotes-incrbuild -b html $INPUT_SPHINX_BUILD_OPTIONS "$doc_dir" "$build_dir"; then
-    echo ::group:: Dumping Sphinx traceback
-    for l in $(find /tmp -name 'sphinx-err*.log'); do
+if [ "$INPUT_CACHE" == "true" ]; then
+    sphinx_build=sphinxnotes-incrbuild
+else
+    sphinx_build=sphinx-build
+fi
+if ! $sphinx_build -b html $INPUT_SPHINX_BUILD_OPTIONS "$doc_dir" "$build_dir"; then
+    for l in $(find /tmp -name 'sphinx-err*.log' 2>/dev/null); do
         # Replace "\n" to "%0A" for supporting multiline text in the error message.
         # https://github.com/actions/toolkit/issues/193#issuecomment-605394935
         traceback=$(tail -n500 $l | awk '{ printf "%s%%0A", $0 }')
