@@ -37,7 +37,7 @@ else
     echo Everything goes well
 fi
 
-pip3 install -U sphinxnotes-incrbuild
+pip3 install -U sphinxnotes-incrbuild>=1.0
 
 echo ::endgroup::
 
