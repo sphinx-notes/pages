@@ -163,6 +163,8 @@ Install extra dependencies
 
 For python dependencies, just add them to your ``requirements.txt`` or ``pyproject.toml`` file.
 
+In your ``pyproject.toml`` file, the extra dependencies must be specified in ``[project.optional-dependencies]``, with the same key as ``pyproject_extras``.
+
 For non-python dependencies, add a step to your workflow file, and install them with the appropriate tools
 (such as apt, wget, ...). See `#24`__ for example.
 
