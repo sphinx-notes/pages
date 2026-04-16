@@ -17,15 +17,20 @@ echo Documentation: $doc_dir
 
 echo ::endgroup::
 
+echo ::group:: Installing uv
+pip3 install uv
+
+echo ::endgroup::
+
 # The actions doesn't depends on any images,
 # so we have to try various package manager.
 echo ::group:: Installing Sphinx
 
 echo Installing sphinx via pip
 if [ -z "$INPUT_SPHINX_VERSION" ] ; then
-    pip3 install -U sphinx
+    uv pip install -U sphinx
 else
-    pip3 install -U sphinx==$INPUT_SPHINX_VERSION
+    uv pip install -U sphinx==$INPUT_SPHINX_VERSION
 fi
 
 echo Adding ~/.local/bin to system path
@@ -37,14 +42,14 @@ else
     echo Everything goes well
 fi
 
-pip3 install -U sphinxnotes-incrbuild>=1.0
+uv pip install -U sphinxnotes-incrbuild>=1.0
 
 echo ::endgroup::
 
 if [ ! -z "$INPUT_REQUIREMENTS_PATH" ] ; then
     echo ::group:: Installing dependencies declared by $INPUT_REQUIREMENTS_PATH
     if [ -f "$INPUT_REQUIREMENTS_PATH" ]; then
-        pip3 install -r "$INPUT_REQUIREMENTS_PATH"
+        uv pip install -r "$INPUT_REQUIREMENTS_PATH"
     else
         echo No $INPUT_REQUIREMENTS_PATH found, skipped
     fi
@@ -54,7 +59,7 @@ fi
 if [ ! -z "$INPUT_PYPROJECT_EXTRAS" ] ; then
     echo ::group:: Installing dependencies declared by pyproject.toml[$INPUT_PYPROJECT_EXTRAS]
     if [ -f "pyproject.toml" ]; then
-        pip3 install .[$INPUT_PYPROJECT_EXTRAS]
+        uv pip install .[$INPUT_PYPROJECT_EXTRAS]
     else
         echo No pyproject.toml found, skipped
     fi
