@@ -24,7 +24,7 @@ elif [ "$INPUT_INSTALLER" == "uv" ]; then
     echo ::group:: Installing uv
     pip3 install uv
     echo Creating venv
-    uv venv venv
+    uv venv --allow-existing venv
     source venv/bin/activate
     INSTALLER="uv pip"
     echo ::endgroup::
