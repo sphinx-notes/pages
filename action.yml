@@ -23,9 +23,9 @@ inputs:
     required: false
     default: '3.12'
   installer:
-    description: 'Which installer to use. Options: ["pip3", "uv"]'
+    description: 'Which installer to use. Options: ["pip", "uv"]'
     required: false
-    default: 'pip3'
+    default: 'pip'
   sphinx_version:
     description: 'Version of Sphinx'
     required: false
