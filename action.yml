@@ -22,6 +22,10 @@ inputs:
     description: 'Version of Python'
     required: false
     default: '3.12'
+  installer:
+    description: 'Which installer to use. Options: ["pip", "uv"]'
+    required: false
+    default: 'pip'
   sphinx_version:
     description: 'Version of Sphinx'
     required: false
@@ -96,6 +100,7 @@ runs:
         INPUT_DOCUMENTATION_PATH: ${{ inputs.documentation_path }}
         INPUT_REQUIREMENTS_PATH: ${{ inputs.requirements_path }}
         INPUT_PYPROJECT_EXTRAS: ${{ inputs.pyproject_extras }}
+        INPUT_INSTALLER: ${{ inputs.installer }}
         INPUT_SPHINX_VERSION: ${{ inputs.sphinx_version }}
         INPUT_CACHE: ${{ inputs.cache }}
         INPUT_SPHINX_BUILD_OPTIONS: ${{ inputs.sphinx_build_options }}
