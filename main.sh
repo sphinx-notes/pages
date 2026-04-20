@@ -23,6 +23,8 @@ if [ "$INPUT_INSTALLER" == "pip" ]; then
 elif [ "$INPUT_INSTALLER" == "uv" ]; then
     echo ::group:: Installing uv
     pip3 install uv
+    python3 -m venv venv
+    source venv/bin/activate
     INSTALLER="uv pip"
     echo ::endgroup::
 else
