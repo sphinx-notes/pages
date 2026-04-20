@@ -17,17 +17,16 @@ echo Documentation: $doc_dir
 
 echo ::endgroup::
 
-# Setup uv or pip
-if [ "$INPUT_INSTALLER" == "uv" ]; then
-    INSTALLER="uv pip"
-    
+# Setup pip or uv
+if [ "$INPUT_INSTALLER" == "pip" ]; then
+    INSTALLER="pip3"
+elif [ "$INPUT_INSTALLER" == "uv" ]; then
     echo ::group:: Installing uv
     pip3 install uv
+    INSTALLER="uv pip"
     echo ::endgroup::
-elif [ "$INPUT_INSTALLER" == "pip" ]; then
-    INSTALLER="pip3"
 else
-    echo "Installer '${INSTALLER}' not recognized!"
+    echo "Installer '${INPUT_INSTALLER}' not recognized!"
     exit 1
 fi
 
