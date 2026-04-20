@@ -100,6 +100,7 @@ runs:
         INPUT_DOCUMENTATION_PATH: ${{ inputs.documentation_path }}
         INPUT_REQUIREMENTS_PATH: ${{ inputs.requirements_path }}
         INPUT_PYPROJECT_EXTRAS: ${{ inputs.pyproject_extras }}
+        INPUT_INSTALLER: ${{ inputs.installer }}
         INPUT_SPHINX_VERSION: ${{ inputs.sphinx_version }}
         INPUT_CACHE: ${{ inputs.cache }}
         INPUT_SPHINX_BUILD_OPTIONS: ${{ inputs.sphinx_build_options }}
