@@ -18,6 +18,10 @@ inputs:
     description: 'Extras of Requirement Specifier, used in `pip install .[XXX]` command'
     required: false
     default: 'docs'
+  pyproject_group:
+    description: 'Dependency group (PEP 735) in pyproject.toml to install, used in `pip install --group XXX` command. Requires pip >= 25.1 (installed automatically when this input is set).'
+    required: false
+    default: ''
   python_version:
     description: 'Version of Python'
     required: false
@@ -96,6 +100,7 @@ runs:
         INPUT_DOCUMENTATION_PATH: ${{ inputs.documentation_path }}
         INPUT_REQUIREMENTS_PATH: ${{ inputs.requirements_path }}
         INPUT_PYPROJECT_EXTRAS: ${{ inputs.pyproject_extras }}
+        INPUT_PYPROJECT_GROUP: ${{ inputs.pyproject_group }}
         INPUT_SPHINX_VERSION: ${{ inputs.sphinx_version }}
         INPUT_CACHE: ${{ inputs.cache }}
         INPUT_SPHINX_BUILD_OPTIONS: ${{ inputs.sphinx_build_options }}

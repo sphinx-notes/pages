@@ -85,6 +85,8 @@ Input                      Default                      Required Description
                                                                  used in ``pip install -r XXX`` command
 ``pyproject_extras``       ``docs``                     false    Extras of `Requirement Specifier`__
                                                                  used in ``pip install .[XXX]``
+``pyproject_group``                                     false    Dependency group (PEP 735) to install,
+                                                                 used in ``pip install --group XXX``
 ========================== ============================ ======== =================================================
 
 Advanced
@@ -163,7 +165,42 @@ Install extra dependencies
 
 For python dependencies, just add them to your ``requirements.txt`` or ``pyproject.toml`` file.
 
-In your ``pyproject.toml`` file, the extra dependencies must be specified in ``[project.optional-dependencies]``, with the same key as ``pyproject_extras``.
+In your ``pyproject.toml`` file, there are two places to declare the packages needed to build your docs
+(such as Sphinx themes and extensions):
+
+``[project.optional-dependencies]``
+   These are *extras* of your package, meaning they get published as part of your package's metadata
+   and can be installed by your users, e.g. ``pip install yourpkg[docs]``.
+   Use the ``pyproject_extras`` input (default: ``docs``) to select which extra to install, with the
+   same key as used in ``[project.optional-dependencies]``:
+
+   .. code-block:: toml
+
+      [project.optional-dependencies]
+      docs = ["sphinx", "furo"]
+
+``[dependency-groups]``
+   This is the newer `PEP 735`__ mechanism for declaring dev-only dependencies. Unlike extras, groups
+   are **never** seen by the built/published package — the ideal place for docs tooling that has
+   nothing to do with your library's runtime dependencies. Use the ``pyproject_group`` input (default:
+   empty, i.e. disabled) to select which group to install:
+
+   .. code-block:: toml
+
+      [dependency-groups]
+      docs = ["sphinx", "furo"]
+
+   ``pyproject_group`` only accepts a single group name, and requires ``pip >= 25.1`` (the action
+   upgrades pip automatically when this input is set). To combine several groups, compose them inside
+   ``pyproject.toml`` itself using PEP 735's ``include-group``, e.g.:
+
+   .. code-block:: toml
+
+      [dependency-groups]
+      test = ["pytest"]
+      docs = ["sphinx", "furo", {include-group = "test"}]
+
+__ https://peps.python.org/pep-0735/
 
 For non-python dependencies, add a step to your workflow file, and install them with the appropriate tools
 (such as apt, wget, ...). See `#24`__ for example.
