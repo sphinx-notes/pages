@@ -61,6 +61,17 @@ if [ ! -z "$INPUT_PYPROJECT_EXTRAS" ] ; then
     echo ::endgroup::
 fi
 
+if [ ! -z "$INPUT_PYPROJECT_GROUP" ] ; then
+    echo ::group:: Installing dependency group declared by pyproject.toml[$INPUT_PYPROJECT_GROUP]
+    if [ -f "pyproject.toml" ]; then
+        pip3 install -U 'pip>=25.1'  # --group requires pip 25.1+
+        pip3 install --group "pyproject.toml:$INPUT_PYPROJECT_GROUP"
+    else
+        echo No pyproject.toml found, skipped
+    fi
+    echo ::endgroup::
+fi
+
 echo ::group:: Running Sphinx builder
 build_dir=/tmp/sphinxnotes-pages
 mkdir -p $build_dir || true
