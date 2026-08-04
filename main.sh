@@ -17,15 +17,30 @@ echo Documentation: $doc_dir
 
 echo ::endgroup::
 
+if [ "$INPUT_INSTALLER" != "pip" ] && [ "$INPUT_INSTALLER" != "uv" ]; then
+    echo "::error::Unknown installer '$INPUT_INSTALLER', supported values: pip, uv"
+    exit 1
+fi
+
+pkg_install() {
+    if [ "$INPUT_INSTALLER" == "uv" ]; then
+        # --system: install into the interpreter provided by setup-python,
+        # no virtual environment required.
+        uv pip install --system "$@"
+    else
+        pip3 install "$@"
+    fi
+}
+
 # The actions doesn't depends on any images,
 # so we have to try various package manager.
 echo ::group:: Installing Sphinx
 
-echo Installing sphinx via pip
+echo Installing sphinx via $INPUT_INSTALLER
 if [ -z "$INPUT_SPHINX_VERSION" ] ; then
-    pip3 install -U sphinx
+    pkg_install -U sphinx
 else
-    pip3 install -U sphinx==$INPUT_SPHINX_VERSION
+    pkg_install -U sphinx==$INPUT_SPHINX_VERSION
 fi
 
 echo Adding ~/.local/bin to system path
@@ -37,14 +52,14 @@ else
     echo Everything goes well
 fi
 
-pip3 install -U sphinxnotes-incrbuild>=1.0
+pkg_install -U 'sphinxnotes-incrbuild>=1.0'
 
 echo ::endgroup::
 
 if [ ! -z "$INPUT_REQUIREMENTS_PATH" ] ; then
     echo ::group:: Installing dependencies declared by $INPUT_REQUIREMENTS_PATH
     if [ -f "$INPUT_REQUIREMENTS_PATH" ]; then
-        pip3 install -r "$INPUT_REQUIREMENTS_PATH"
+        pkg_install -r "$INPUT_REQUIREMENTS_PATH"
     else
         echo No $INPUT_REQUIREMENTS_PATH found, skipped
     fi
@@ -54,7 +69,7 @@ fi
 if [ ! -z "$INPUT_PYPROJECT_EXTRAS" ] ; then
     echo ::group:: Installing dependencies declared by pyproject.toml[$INPUT_PYPROJECT_EXTRAS]
     if [ -f "pyproject.toml" ]; then
-        pip3 install .[$INPUT_PYPROJECT_EXTRAS]
+        pkg_install .[$INPUT_PYPROJECT_EXTRAS]
     else
         echo No pyproject.toml found, skipped
     fi
@@ -64,8 +79,10 @@ fi
 if [ ! -z "$INPUT_PYPROJECT_GROUP" ] ; then
     echo ::group:: Installing dependency group declared by pyproject.toml[$INPUT_PYPROJECT_GROUP]
     if [ -f "pyproject.toml" ]; then
-        pip3 install -U 'pip>=25.1'  # --group requires pip 25.1+
-        pip3 install --group "pyproject.toml:$INPUT_PYPROJECT_GROUP"
+        if [ "$INPUT_INSTALLER" == "pip" ]; then
+            pip3 install -U 'pip>=25.1'  # --group requires pip 25.1+
+        fi
+        pkg_install --group "pyproject.toml:$INPUT_PYPROJECT_GROUP"
     else
         echo No pyproject.toml found, skipped
     fi

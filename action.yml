@@ -26,6 +26,10 @@ inputs:
     description: 'Version of Python'
     required: false
     default: '3.12'
+  installer:
+    description: 'Python package installer used to install dependencies, "pip" or "uv"'
+    required: false
+    default: 'pip'
   sphinx_version:
     description: 'Version of Sphinx'
     required: false
@@ -68,15 +72,22 @@ runs:
 
     - name: Setup python
       uses: actions/setup-python@v6
-      if: ${{ inputs.cache == 'true' }}
+      if: ${{ inputs.cache == 'true' && inputs.installer == 'pip' }}
       with:
         python-version: ${{ inputs.python_version }}
         cache: 'pip'
     - name: Setup python
       uses: actions/setup-python@v6
-      if: ${{ inputs.cache == 'false' }}
+      if: ${{ inputs.cache == 'false' || inputs.installer == 'uv' }}
       with:
         python-version: ${{ inputs.python_version }}
+
+    - name: Setup uv
+      # setup-uv only publishes exact version tags, no major tags like v9
+      uses: astral-sh/setup-uv@v9.0.0
+      if: ${{ inputs.installer == 'uv' }}
+      with:
+        enable-cache: ${{ inputs.cache }}
 
     - name: Restore cache
       uses: actions/cache@v5
@@ -101,6 +112,7 @@ runs:
         INPUT_REQUIREMENTS_PATH: ${{ inputs.requirements_path }}
         INPUT_PYPROJECT_EXTRAS: ${{ inputs.pyproject_extras }}
         INPUT_PYPROJECT_GROUP: ${{ inputs.pyproject_group }}
+        INPUT_INSTALLER: ${{ inputs.installer }}
         INPUT_SPHINX_VERSION: ${{ inputs.sphinx_version }}
         INPUT_CACHE: ${{ inputs.cache }}
         INPUT_SPHINX_BUILD_OPTIONS: ${{ inputs.sphinx_build_options }}
