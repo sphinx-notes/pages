@@ -1,0 +1,30 @@
+name: Test
+
+on:
+  pull_request:
+  push:
+    branches: [v3]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        installer: [pip, uv]
+        cache: [false, true]
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0 # Required by sphinxnotes-incrbuild when cache is enabled
+      - id: build
+        name: Build documentation (installer=${{ matrix.installer }}, cache=${{ matrix.cache }})
+        uses: ./
+        with:
+          installer: ${{ matrix.installer }}
+          cache: ${{ matrix.cache }}
+          checkout: false
+          publish: false
+      - name: Verify build output
+        run: test -f "${{ steps.build.outputs.artifact }}/index.html"
