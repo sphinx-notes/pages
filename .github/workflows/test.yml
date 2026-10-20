@@ -17,7 +17,8 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          fetch-depth: 0 # Required by sphinxnotes-incrbuild when cache is enabled
+          # Full history is only required by sphinxnotes-incrbuild when cache is enabled
+          fetch-depth: ${{ matrix.cache && '0' || '1' }}
       - id: build
         name: Build documentation (pypi_installer=${{ matrix.pypi_installer }}, cache=${{ matrix.cache }})
         uses: ./
