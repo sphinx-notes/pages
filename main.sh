@@ -17,13 +17,15 @@ echo Documentation: $doc_dir
 
 echo ::endgroup::
 
-if [ "$INPUT_INSTALLER" != "pip" ] && [ "$INPUT_INSTALLER" != "uv" ]; then
-    echo "::error::Unknown installer '$INPUT_INSTALLER', supported values: pip, uv"
+# Fall back to pip when unset, so main.sh keeps working without action.yml
+INPUT_PYPI_INSTALLER="${INPUT_PYPI_INSTALLER:-pip}"
+if [ "$INPUT_PYPI_INSTALLER" != "pip" ] && [ "$INPUT_PYPI_INSTALLER" != "uv" ]; then
+    echo "::error::Unknown installer '$INPUT_PYPI_INSTALLER', supported values: pip, uv"
     exit 1
 fi
 
 pkg_install() {
-    if [ "$INPUT_INSTALLER" == "uv" ]; then
+    if [ "$INPUT_PYPI_INSTALLER" == "uv" ]; then
         # --system: install into the interpreter provided by setup-python,
         # no virtual environment required.
         uv pip install --system "$@"
@@ -36,7 +38,7 @@ pkg_install() {
 # so we have to try various package manager.
 echo ::group:: Installing Sphinx
 
-echo Installing sphinx via $INPUT_INSTALLER
+echo Installing sphinx via $INPUT_PYPI_INSTALLER
 if [ -z "$INPUT_SPHINX_VERSION" ] ; then
     pkg_install -U sphinx
 else
@@ -79,7 +81,7 @@ fi
 if [ ! -z "$INPUT_PYPROJECT_GROUP" ] ; then
     echo ::group:: Installing dependency group declared by pyproject.toml[$INPUT_PYPROJECT_GROUP]
     if [ -f "pyproject.toml" ]; then
-        if [ "$INPUT_INSTALLER" == "pip" ]; then
+        if [ "$INPUT_PYPI_INSTALLER" == "pip" ]; then
             pip3 install -U 'pip>=25.1'  # --group requires pip 25.1+
         fi
         pkg_install --group "pyproject.toml:$INPUT_PYPROJECT_GROUP"

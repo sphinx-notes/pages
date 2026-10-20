@@ -99,7 +99,7 @@ Unless you need to highly customize the action's behavior.
 Input                      Default                      Required Description
 -------------------------- ---------------------------- -------- -------------------------------------------------
 ``python_version``         ``3.12``                     false    Version of Python
-``installer``              ``pip``                      false    Python package installer used to install
+``pypi_installer``         ``pip``                      false    Python package installer used to install
                                                                  dependencies, ``pip`` or ``uv``
 ``sphinx_version``         ``latest``                   false    Version of Sphinx
 ``sphinx_build_options``                                false    Additional options passed to ``sphinx-build``
@@ -212,15 +212,15 @@ __ https://github.com/sphinx-notes/pages/issues/24
 Speed up installation with uv
 *****************************
 
-Dependencies are installed with pip by default. Set the ``installer`` input to ``uv``
-to install them with uv__ instead, which is usually much faster:
+Dependencies are installed with pip by default. Set the ``pypi_installer`` input
+to ``uv`` to install them with uv__ instead, which is usually much faster:
 
 .. code:: yaml
 
    - id: deployment
      uses: sphinx-notes/pages@v3
      with:
-       installer: uv
+       pypi_installer: uv
 
 __ https://github.com/astral-sh/uv
 

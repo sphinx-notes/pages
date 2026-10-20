@@ -12,17 +12,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        installer: [pip, uv]
+        pypi_installer: [pip, uv]
         cache: [false, true]
     steps:
       - uses: actions/checkout@v6
         with:
           fetch-depth: 0 # Required by sphinxnotes-incrbuild when cache is enabled
       - id: build
-        name: Build documentation (installer=${{ matrix.installer }}, cache=${{ matrix.cache }})
+        name: Build documentation (pypi_installer=${{ matrix.pypi_installer }}, cache=${{ matrix.cache }})
         uses: ./
         with:
-          installer: ${{ matrix.installer }}
+          pypi_installer: ${{ matrix.pypi_installer }}
           cache: ${{ matrix.cache }}
           checkout: false
           publish: false
